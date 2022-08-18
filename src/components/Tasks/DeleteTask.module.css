@@ -1,0 +1,11 @@
+.button {
+  padding-top: 5%;
+  padding-bottom: 5%;
+  padding-left: 35%;
+  padding-right: 35%;
+  font-size: small;
+}
+
+.button:active {
+  background: #5e0134;
+}
