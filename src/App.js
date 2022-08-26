@@ -1,43 +1,41 @@
 import React, { useEffect, useState } from "react";
 
-import Tasks from "./components/Tasks/Tasks";
-import NewTask from "./components/NewTask/NewTask";
+import Submissions from "./components/Submissions/Submissions";
 import useHttp from "./hooks/useHttp";
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const [submissions, setSubmissions] = useState([]);
 
-  const { isLoading, error, sendRequest: fetchTasks } = useHttp();
+  const { isLoading, error, sendRequest: fetchSubmissions } = useHttp();
 
   useEffect(() => {
-    const transformTasks = (tasksObj) => {
-      const loadedTasks = [];
+    const transformSubmissions = (submissionObj) => {
+      const loadedSubmissions = [];
 
-      for (const taskKey in tasksObj) {
-        loadedTasks.push({ id: taskKey, text: tasksObj[taskKey].text });
+      for (const submissionKey in submissionObj) {
+        loadedSubmissions.push({ id: submissionKey, text: submissionObj[submissionKey].Body });
       }
 
-      setTasks(loadedTasks);
+      setSubmissions(loadedSubmissions);
     };
 
-    fetchTasks(
-      { url: "https://star-wars-5f10e-default-rtdb.firebaseio.com/tasks.json" },
-      transformTasks
+    fetchSubmissions(
+      { url: "http://redditapi.adadkins.com/submissions/"},
+      transformSubmissions
     );
-  }, [fetchTasks]);
+  }, [fetchSubmissions]);
 
-  const taskAddHandler = (task) => {
-    setTasks((prevTasks) => prevTasks.concat(task));
-  };
+  // const submissionAddHandler = (Submission) => {
+  //   setSubmissions((prevSubmission) => prevSubmissions.concat(Submission));
+  // };
 
   return (
     <React.Fragment>
-      <NewTask onAddTask={taskAddHandler} />
-      <Tasks
-        items={tasks}
+      <Submissions
+        items={submissions}
         loading={isLoading}
         error={error}
-        onFetch={fetchTasks}
+        onFetch={fetchSubmissions}
       />
     </React.Fragment>
   );
